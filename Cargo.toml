@@ -9,6 +9,9 @@ repository = "https://github.com/SebastianDominguezC/miniverse"
 keywords = ["gravity", "simulation"]
 categories = ["Simulation", "Science"]
 license = "MIT"
+exclude = [
+    "assets/*",
+]
 
 [dependencies]
 bevy = { version = "0.7.0" }
