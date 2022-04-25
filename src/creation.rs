@@ -1,9 +1,8 @@
+use bevy::prelude::*;
 use {rand::prelude::*, std::f32::consts::PI};
 
 use crate::components::{Acceleration, Body, LastPos, Mass, Particle};
 use crate::Settings;
-
-use bevy::prelude::*;
 
 pub fn create_particle(
     initial_position: Vec3,

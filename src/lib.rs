@@ -24,6 +24,7 @@ pub use utils::colors;
 struct FixedUpdateStage;
 
 // Resources
+/// Settings resource for Bevy
 pub struct Settings {
     time_step: f32,
     gravity_constant: f32,
@@ -34,6 +35,9 @@ pub struct Settings {
 
 struct Systems(Vec<Prefab>);
 
+/// # A struct in charge of configuring and running the simulation.
+/// The simulation struct is in charge of configuring the simulation details, like time step, gravity constant, etc.
+/// This struct also runs Bevy's game engine in order to run the simulation.
 pub struct Simulation {
     time_step: f32,
     gravity_constant: f32,
@@ -45,6 +49,7 @@ pub struct Simulation {
 }
 
 impl Simulation {
+    /// Creates a new simulation with user defined configuration.
     pub fn new(
         time_step: f32,
         gravity_constant: f32,
@@ -64,10 +69,12 @@ impl Simulation {
         }
     }
 
+    /// Configures the simulation systems to use. Systems referring to celestial bodies, galaxies, asteroid belts, etc.
     pub fn config(&mut self, systems: Vec<Prefab>) {
         self.systems = systems;
     }
 
+    /// Runs the simulation, it opens a window and runs the configuration. See the repo's examples.
     pub fn run(&self) {
         App::new()
             .insert_resource(Msaa { samples: 4 })
@@ -95,7 +102,6 @@ impl Simulation {
             .run();
     }
 
-    // Setup
     fn setup(
         mut commands: Commands,
         mut meshes: ResMut<Assets<Mesh>>,
@@ -186,9 +192,6 @@ impl Simulation {
                         &mut materials,
                         &settings,
                     );
-                }
-                _ => {
-                    println!("That is not a prefab...");
                 }
             }
         }
