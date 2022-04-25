@@ -99,6 +99,7 @@ impl Simulation {
                     .with_system(gravity::integrate),
             )
             .add_system(camera::move_camera)
+            .add_system(camera::rotate_camera)
             .run();
     }
 
