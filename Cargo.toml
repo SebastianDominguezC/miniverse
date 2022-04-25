@@ -1,13 +1,13 @@
 [package]
 name = "miniverse"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 author = "Sebastian Dominguez (joburg1035@yahoo.com)"
 description = "A library for simulating n-body gravity interactions"
 readme = "README.md"
 repository = "https://github.com/SebastianDominguezC/miniverse"
 keywords = ["gravity", "simulation"]
-categories = ["Simulation", "Science"]
+categories = ["simulation", "science"]
 license = "MIT"
 exclude = [
     "assets/*",
