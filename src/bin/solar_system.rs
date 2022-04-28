@@ -4,18 +4,12 @@ use miniverse::{colors, AsteroidBelt, Body, Simulation, Vec3};
 const TIME_STEP: f32 = 1.0 / 60.0;
 const G: f32 = 10.0;
 const PARTICLE_RADIUS: f32 = 0.07;
-const CAMERA_SPEED: f32 = 30.0;
-const CAMERA_DIST: f32 = -250.0;
 
 fn main() {
-    let mut sim = Simulation::new(
-        TIME_STEP,
-        G,
-        PARTICLE_RADIUS,
-        CAMERA_SPEED,
-        CAMERA_DIST,
-        colors::gray_dark,
-    );
+    let camera_pos: Vec3 = Vec3::new(0.0, 0.0, -250.0);
+
+    let mut sim = Simulation::new(TIME_STEP, G, PARTICLE_RADIUS, camera_pos, colors::gray_dark);
+
     let systems = vec![
         Body {
             mass: 10.0,

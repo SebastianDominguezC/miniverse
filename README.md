@@ -16,30 +16,23 @@ cd my_universe
 Add miniverse as a dependency in your `cargo.toml`.
 
 ```
-miniverse = "0.1.0"
+miniverse = "0.1.2"
 ```
 
 In your main file write out the [galaxy](./src/bin/single_galaxy.rs) example:
 
-```
+```rust
 extern crate miniverse;
 use miniverse::{colors, Galaxy, Simulation, Vec3};
 
 const TIME_STEP: f32 = 1.0 / 60.0;
 const G: f32 = 10.0;
 const PARTICLE_RADIUS: f32 = 0.05;
-const CAMERA_SPEED: f32 = 20.0;
-const CAMERA_DIST: f32 = -75.0;
 
 fn main() {
-    let mut sim = Simulation::new(
-        TIME_STEP,
-        G,
-        PARTICLE_RADIUS,
-        CAMERA_SPEED,
-        CAMERA_DIST,
-        colors::gray_dark,
-    );
+    let camera_pos: Vec3 = Vec3::new(0.0, 0.0, -75.0);
+
+    let mut sim = Simulation::new(TIME_STEP, G, PARTICLE_RADIUS, camera_pos, colors::gray_dark);
 
     let systems = vec![Galaxy {
         amount: 5000,
@@ -63,6 +56,19 @@ cargo build --release
 cargo run --release
 ```
 
+## Camera
+
+Camera movement can be controlled:
+
+- `w` - in
+- `a` - left
+- `s` - right
+- `d` - out
+- `space` - up
+- `shift` - down
+
+Camera rotation (pitch & yaw) can be controlled with mouse.
+
 ### Next steps
 
 Get familiarized with the API :)
@@ -79,7 +85,7 @@ There are 4 types of systems so far:
 
 Following the example above, when declaring the `systems` vec, simply insert your Prefabs:
 
-```
+```rust
 let systems = vec![
         Body {
             mass: 10.0,
@@ -123,5 +129,9 @@ The code for galaxy generation (the spirals), was used from [this amazing repo](
 
 - Muli-threaded computations
 - Integration methods
-- Camera rotations
 - Better documentation
+- Testing modules
+- Energy and momentum analysis
+- Specific particle tracking
+- Collisions (inelastic and elastic) --> maybe a cofficient of elasticity
+- Pausing

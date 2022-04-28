@@ -1,6 +1,6 @@
 [package]
 name = "miniverse"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 author = "Sebastian Dominguez (joburg1035@yahoo.com)"
 description = "A library for simulating n-body gravity interactions"
@@ -17,3 +17,4 @@ exclude = [
 bevy = { version = "0.7.0" }
 rand = "0.8.5"
 rand_distr = "0.4.3"
+smooth-bevy-cameras = "0.4.0"

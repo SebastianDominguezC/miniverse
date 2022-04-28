@@ -8,8 +8,11 @@ mod tests {
 }
 
 use bevy::{core::FixedTimestep, prelude::*};
+use smooth_bevy_cameras::{
+    controllers::fps::{FpsCameraBundle, FpsCameraController, FpsCameraPlugin},
+    LookTransformPlugin,
+};
 
-mod camera;
 mod components;
 mod creation;
 mod generation;
@@ -29,8 +32,7 @@ pub struct Settings {
     time_step: f32,
     gravity_constant: f32,
     particle_radius: f32,
-    camera_position: f32,
-    camera_speed: f32,
+    camera_position: Vec3,
 }
 
 struct Systems(Vec<Prefab>);
@@ -42,8 +44,7 @@ pub struct Simulation {
     time_step: f32,
     gravity_constant: f32,
     particle_radius: f32,
-    camera_speed: f32,
-    camera_position: f32,
+    camera_position: Vec3,
     background_color: Color,
     systems: Vec<Prefab>,
 }
@@ -54,15 +55,13 @@ impl Simulation {
         time_step: f32,
         gravity_constant: f32,
         particle_radius: f32,
-        camera_speed: f32,
-        camera_position: f32,
+        camera_position: Vec3,
         background_color: Color,
     ) -> Self {
         Self {
             time_step,
             gravity_constant,
             particle_radius,
-            camera_speed,
             camera_position,
             background_color,
             systems: vec![],
@@ -84,10 +83,11 @@ impl Simulation {
                 gravity_constant: self.gravity_constant,
                 particle_radius: self.particle_radius,
                 camera_position: self.camera_position,
-                camera_speed: self.camera_speed,
             })
             .insert_resource(Systems(self.systems.clone()))
             .add_plugins(DefaultPlugins)
+            .add_plugin(LookTransformPlugin)
+            .add_plugin(FpsCameraPlugin::default())
             .add_startup_system(Self::setup)
             .add_stage_after(
                 CoreStage::Update,
@@ -98,8 +98,6 @@ impl Simulation {
                     .with_system(gravity::interact_particles_with_bodies)
                     .with_system(gravity::integrate),
             )
-            .add_system(camera::move_camera)
-            .add_system(camera::rotate_camera)
             .run();
     }
 
@@ -110,6 +108,7 @@ impl Simulation {
         settings: Res<Settings>,
         systems: Res<Systems>,
     ) {
+        // loop user defined systems
         for syst in systems.0.iter() {
             match syst {
                 Particle {
@@ -203,11 +202,12 @@ impl Simulation {
             brightness: 0.5,
         });
 
-        // camera
-        commands.spawn_bundle(PerspectiveCameraBundle {
-            transform: Transform::from_xyz(0.0, 0.0, settings.camera_position)
-                .looking_at(Vec3::ZERO, Vec3::Y),
-            ..default()
-        });
+        // moving camera setup
+        commands.spawn_bundle(FpsCameraBundle::new(
+            FpsCameraController::default(),
+            PerspectiveCameraBundle::default(),
+            settings.camera_position,
+            Vec3::new(0.0, 0.0, 0.0),
+        ));
     }
 }
