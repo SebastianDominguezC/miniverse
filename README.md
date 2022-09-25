@@ -132,6 +132,13 @@ The code for galaxy generation (the spirals), was used from [this amazing repo](
 - Better documentation
 - Testing modules
 - Energy and momentum analysis
-- Specific particle tracking
+- Specific particle tracking / path drawing
 - Collisions (inelastic and elastic) --> maybe a cofficient of elasticity
 - Pausing
+- Radius of center of mass of galaxy
+- Generic functions for creating multiple bodies
+- Intuitive camera rotation controls
+- Mass distribution of galaxy (throughout spirals)
+- Kepler's laws proofs
+- Spawn systems by groups
+- Spawn systems by timer
